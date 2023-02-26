@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Admin Login | E-Voting Platform | GST FORCE | Helpline No. 011-47525539/49</title>
+	<link rel="stylesheet" href="../css/adminstyle.css">
+	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css">
+</head>
+<body>
+	<div class="center">
+	<div class="header">Login Form</div>	
+
+
+	<form  method="post" action="/adlogin">
+		<input id="email" type="text" placeholder="Email or Username" name="email_address" required/>
+		<i class="far fa-envelope"></i>
+		<input id="password" type="password" placeholder="Password" name="password" required/>
+		<i class="fas fa-lock" onclick="show()"></i>
+		<input id="Login" type="submit" value="Login">
+	</form>
+	</div>
+
+	<script type="module" src="https://www.gstatic.com/firebasejs/9.17.1/firebase-app.js"></script>
+	<script type="module" src="https://www.gstatic.com/firebasejs/9.17.1/firebase-auth.js"></script>
+	<script type="module">
+		import {initializeApp} from "https://www.gstatic.com/firebasejs/9.17.1/firebase-app.js";
+		import {
+			getAuth, onAuthStateChanged, signInWithEmailAndPassword
+		} from "https://www.gstatic.com/firebasejs/9.17.1/firebase-auth.js";
+
+		const firebaseConfig = {
+			apiKey: "AIzaSyCI_oLJkmpAnFnbIIK43BwZ_2jxfmyVU2c",
+			authDomain: "evoting-fee1e.firebaseapp.com",
+			databaseURL: "https://evoting-fee1e-default-rtdb.asia-southeast1.firebasedatabase.app",
+			projectId: "evoting-fee1e",
+			storageBucket: "evoting-fee1e.appspot.com",
+			messagingSenderId: "62575358156",
+			appId: "1:62575358156:web:0a6720dc4d31b429659269"
+		};
+
+		// Initialize Firebase
+		const app = initializeApp(firebaseConfig);
+		const auth = getAuth(app);
+
+		onAuthStateChanged(auth, (user) => {
+					if (user) {
+						location.replace("adminVoterReg.html");
+					}
+				}
+		)
+
+		function login() {
+			const email = document.getElementById("email").value
+			const password = document.getElementById("password").value
+			signInWithEmailAndPassword(auth, email, password).catch((error) => {
+				document.getElementById("error").innerHTML = error.message.split(":")[1];
+			})
+		}
+
+		document.getElementById("Login").addEventListener("click", (event) => {
+			event.preventDefault()
+			login();
+		})
+
+
+	</script>
+
+</body>
+
+</html>
